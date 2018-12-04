@@ -1,0 +1,11 @@
+{
+  "name": "googlehome-tumolink",
+  "version": "1.0.0",
+  "description": "'tumolink から GoogoeHome に通知するためのアプリ'",
+  "main": "app.js",
+  "scripts": {
+    "test": "text.js"
+  },
+  "author": "YoheiTerashima",
+  "license": "ISC"
+}
