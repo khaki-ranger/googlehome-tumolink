@@ -2,15 +2,23 @@
 
 const settings = require('./settings');
 const request = require('request');
-const cron = require('node-cron');
 
-cron.schedule('* * * * *', () => {
+const requestToTumolink = function() {
   request.post({
     url: settings.target.url,
     form: {spaceId: settings.target.spaceId}
   }, function (error, response, body) {
-    console.log('error:', error); // Print the error if one occurred
-    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-    console.log('body:', body); // Print the HTML for the Google homepage.
+    if (!error && response && response.statusCode === 200) {
+      const responseBodyObj = JSON.parse(body);
+      console.log('newArrival:', responseBodyObj.newArrival);
+      if (responseBodyObj.newArrival) {
+        console.log('text:', responseBodyObj.text);
+      }
+    } else {
+      console.log('error:', error); // Print the error if one occurred
+    }
+    setTimeout(requestToTumolink, settings.target.intervalMillisecond);
   });
-});
+};
+
+requestToTumolink();
